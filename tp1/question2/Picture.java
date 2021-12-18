@@ -20,6 +20,8 @@ public class Picture {
     private Square window;
     private Triangle roof;
     private Circle sun;
+    private Circle sun2;
+    private boolean terreEstFixe=true;
 
     /**
      * Constructor for objects of class Picture
@@ -32,6 +34,7 @@ public class Picture {
      * Draw this picture.
      */
     public void draw() {
+        if (terreEstFixe && sun==null){ 
         wall = new Square();
         wall.moveVertical(80);
         wall.changeSize(100);
@@ -50,12 +53,20 @@ public class Picture {
         roof.makeVisible();
 
         sun = new Circle();
-        sun.changeColor("yellow");
+        sun.changeColor("blue");
         sun.moveHorizontal(180);
         sun.moveVertical(-10);
         sun.changeSize(60);
         sun.makeVisible();
+        
     }
+    else{
+        sun.makeInvisible();
+            sun=null; //Pour que si on reexecute draw on recommence de nouveau c-a-d sans le soleil bleu en bas et avec un nouveau soleil bleu en haut
+            terreEstFixe=true;
+            draw();
+        }
+}
 
     /**
      * Change this picture to black/white display
@@ -83,4 +94,15 @@ public class Picture {
         }
     }
 
+      public void coucherSoleil(){
+        if(sun != null) //pour ne pas avoir une erreure si on execute coucherSoleil() avant draw()
+        {
+            if(terreEstFixe)
+            {
+                sun.slowMoveVertical(230);
+                terreEstFixe = false;
+            } 
+            
+        }   
+    }
 }
